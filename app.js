@@ -31,8 +31,41 @@ app.post("/create",async(req,res)=>{
 
 
 })
+//viewmypost
+app.post("/viewmypost",(req,res)=>{
+    let input =req.body
+    let token = req.headers.token
+    jwt.verify(token,"blogApp",(error,decoded)=>{
 
+        if (decoded && decoded.email) {
 
+            postModel.find(input).then(
+
+                (items)=>{
+
+                    res.json(items)
+
+                }
+
+            ).catch(
+
+                (error)=>{
+
+                    res.json({"status":error})
+
+                }
+
+            )
+            
+        } else {
+
+            res.json({"status":"Invalid Authentication"})
+            
+        }
+
+    })
+
+})
 
 //viewallpost
 
